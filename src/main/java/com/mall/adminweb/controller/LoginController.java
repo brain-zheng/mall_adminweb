@@ -2,6 +2,7 @@ package com.mall.adminweb.controller;
 
 import com.mall.admincenter.client.dto.AdminUserDTO;
 import com.mall.admincenter.client.service.LoginRPCService;
+import com.mall.adminweb.util.MD5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -55,7 +57,8 @@ public class LoginController {
             session.setAttribute("errorMsg", "不存在此用户");
             return "admin/login";
         }
-        if (passWord.equals(adminUserDTO.getLoginPassword())){
+        String passwordMD5 = MD5Util.MD5Encode(passWord, "UTF-8");
+        if (passwordMD5.equals(adminUserDTO.getLoginPassword())){
             session.setAttribute("loginUser", adminUserDTO.getNickName());
             session.setAttribute("loginUserId", adminUserDTO.getId());
             return "redirect:/admin/index";
@@ -63,6 +66,14 @@ public class LoginController {
             session.setAttribute("errorMsg", "密码填写错误");
             return "admin/login";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("loginUserId");
+        request.getSession().removeAttribute("loginUser");
+        request.getSession().removeAttribute("errorMsg");
+        return "admin/login";
     }
 
 }
