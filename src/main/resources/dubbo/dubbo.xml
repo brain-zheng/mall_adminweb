@@ -11,4 +11,7 @@
     <dubbo:reference id="LoginRPCService" interface="com.mall.admincenter.client.service.LoginRPCService"
                      timeout="30000" version="1.0.0"/>
 
+    <dubbo:reference id="MallCarouselServiceImpl" interface="com.mall.goodscenter.client.service.MallCarouselService"
+                     timeout="3000" version="1.0.0"/>
+
 </beans>

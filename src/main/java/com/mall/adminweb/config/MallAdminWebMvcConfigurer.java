@@ -1,9 +1,11 @@
 package com.mall.adminweb.config;
 
+import com.mall.adminweb.common.Constants;
 import com.mall.adminweb.interceptor.AdminLoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -25,5 +27,10 @@ public class MallAdminWebMvcConfigurer implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/login")       // 排除登录页面
                 .excludePathPatterns("/admin/dist/**")      // 排除静态资源
                 .excludePathPatterns("/admin/plugins/**");
+    }
+
+    // 使用自定义静态资源映射目录
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:" + Constants.FILE_UPLOAD_DIC);
     }
 }

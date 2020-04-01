@@ -2,7 +2,7 @@ package com.mall.adminweb.controller;
 
 import com.mall.admincenter.client.dto.AdminUserDTO;
 import com.mall.admincenter.client.service.LoginRPCService;
-import com.mall.adminweb.util.MD5Util;
+import com.mall.common.service.util.MD5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;

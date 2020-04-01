@@ -2,7 +2,7 @@ package com.mall.adminweb.manager;
 
 import com.mall.admincenter.client.dto.AdminUserDTO;
 import com.mall.admincenter.client.service.LoginRPCService;
-import com.mall.adminweb.util.MD5Util;
+import com.mall.common.service.util.MD5Util;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
