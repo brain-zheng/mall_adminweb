@@ -14,4 +14,7 @@
     <dubbo:reference id="MallCarouselServiceImpl" interface="com.mall.goodscenter.client.service.MallCarouselService"
                      timeout="3000" version="1.0.0"/>
 
+    <dubbo:reference id="MallCategoryServiceImpl" interface="com.mall.goodscenter.client.service.MallCategoryService"
+                     timeout="3000" version="1.0.0"/>
+
 </beans>

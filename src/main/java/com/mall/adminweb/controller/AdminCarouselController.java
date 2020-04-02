@@ -2,6 +2,7 @@ package com.mall.adminweb.controller;
 
 
 import com.mall.adminweb.request.CarouselRequest;
+import com.mall.adminweb.response.CarouselResponse;
 import com.mall.common.service.util.PageQueryUtil;
 import com.mall.common.service.util.PageResult;
 import com.mall.common.service.util.Result;
@@ -9,7 +10,6 @@ import com.mall.common.service.util.ResultGenerator;
 import com.mall.goodscenter.client.dto.CarouselDTO;
 import com.mall.goodscenter.client.enums.ServiceResultEnum;
 import com.mall.goodscenter.client.service.MallCarouselService;
-import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -53,11 +55,16 @@ public class AdminCarouselController {
         int limit = Integer.parseInt(params.get("limit").toString());
         PageQueryUtil pageUtil = new PageQueryUtil(page, limit);
         PageResult pageResult = mallCarouselService.getCarouselPage(pageUtil);
-        if (pageResult != null) {
-            return ResultGenerator.genSuccessResult(pageResult);
-        } else {
+        if (pageResult == null) {
             return ResultGenerator.genFailResult("查询异常！");
         }
+        List<CarouselResponse> res = new ArrayList<>();
+        List<CarouselDTO> dtos = (List<CarouselDTO>) pageResult.getList();
+        for(CarouselDTO dto : dtos) {
+            res.add(convertCarouselDTO2VO(dto));
+        }
+        pageResult.setList(res);
+        return ResultGenerator.genSuccessResult(pageResult);
     }
 
     @PostMapping("/carousels/save")
@@ -128,7 +135,7 @@ public class AdminCarouselController {
     }
 
 
-    public static CarouselDTO converterCarouselRequest2DTO(CarouselRequest request) {
+    private CarouselDTO converterCarouselRequest2DTO(CarouselRequest request) {
         if (request == null) {
             return null;
         }
@@ -141,6 +148,21 @@ public class AdminCarouselController {
         carouselDTO.setCreateTime(request.getCreateTime());
         carouselDTO.setUpdateTime(request.getUpdateTime());
         return carouselDTO;
+    }
+
+    public static CarouselResponse convertCarouselDTO2VO(CarouselDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        CarouselResponse carouselResponse = new CarouselResponse();
+        carouselResponse.setCarouselUrl(dto.getCarouselUrl());
+        carouselResponse.setRedirectUrl(dto.getRedirectUrl());
+        carouselResponse.setCarouselRank(dto.getCarouselRank());
+        carouselResponse.setIsDeleted(dto.getIsDeleted());
+        carouselResponse.setCarouselId(dto.getId());
+        carouselResponse.setCreateTime(dto.getCreateTime());
+        carouselResponse.setUpdateTime(dto.getUpdateTime());
+        return carouselResponse;
     }
 
 }
