@@ -61,13 +61,13 @@ public class MallGoodsDetailInfoController {
     public String edit(HttpServletRequest request){
         request.setAttribute("path", "edit");
         // 查询所有一级分类
-        List<GoodsCategoryDTO> firstLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0), MallCategoryLevelEnum.LEVEL_ONE.getLevel());
+        List<GoodsCategoryDTO> firstLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0), MallCategoryLevelEnum.LEVEL_ONE.getLevel(), 0);
         if (!CollectionUtils.isEmpty(firstLevelCategories)) {
             //查询一级分类列表中第一个实体的所有二级分类
-            List<GoodsCategoryDTO> secondLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(firstLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_TWO.getLevel());
+            List<GoodsCategoryDTO> secondLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(firstLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_TWO.getLevel(), 0);
             if (!CollectionUtils.isEmpty(secondLevelCategories)) {
                 //查询二级分类列表中第一个实体的所有三级分类
-                List<GoodsCategoryDTO> thirdLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(secondLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel());
+                List<GoodsCategoryDTO> thirdLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(secondLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel(), 0);
                 List<GoodsCategoryResponse> firstGoods = new ArrayList<>();
                 List<GoodsCategoryResponse> secondGoods = new ArrayList<>();
                 List<GoodsCategoryResponse> thirdGoods = new ArrayList<>();
@@ -149,14 +149,14 @@ public class MallGoodsDetailInfoController {
                 GoodsCategoryDTO goodsCategoryDTO = mallCategoryService.selectByPrimaryKey(goodsInfo.getGoodsCategoryId());
                 if (goodsCategoryDTO != null && goodsCategoryDTO.getCategoryLevel() == MallCategoryLevelEnum.LEVEL_THREE.getLevel()) {
                     //查询所有的一级分类
-                    List<GoodsCategoryDTO> firstLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0), MallCategoryLevelEnum.LEVEL_ONE.getLevel());
+                    List<GoodsCategoryDTO> firstLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0), MallCategoryLevelEnum.LEVEL_ONE.getLevel(), 0);
                     //根据parentId查询当前parentId下所有的三级分类
-                    List<GoodsCategoryDTO> thirdLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(goodsCategoryDTO.getParentId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel());
+                    List<GoodsCategoryDTO> thirdLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(goodsCategoryDTO.getParentId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel(), 0);
                     //查询当前三级分类的父级二级分类
                     GoodsCategoryDTO secondCategory = mallCategoryService.selectByPrimaryKey(goodsCategoryDTO.getParentId());
                     if (secondCategory != null) {
                         //根据parentId查询当前parentId下所有的二级分类
-                        List<GoodsCategoryDTO> secondLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(secondCategory.getParentId()), MallCategoryLevelEnum.LEVEL_TWO.getLevel());
+                        List<GoodsCategoryDTO> secondLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(secondCategory.getParentId()), MallCategoryLevelEnum.LEVEL_TWO.getLevel(), 0);
                         //查询当前二级分类的父级一级分类
                         GoodsCategoryDTO firestCategory = mallCategoryService.selectByPrimaryKey(secondCategory.getParentId());
                         if (firestCategory != null) {
@@ -187,13 +187,13 @@ public class MallGoodsDetailInfoController {
         }
         if (goodsInfo.getGoodsCategoryId() == 0) {
             //查询所有的一级分类
-            List<GoodsCategoryDTO> firstLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0), MallCategoryLevelEnum.LEVEL_ONE.getLevel());
+            List<GoodsCategoryDTO> firstLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0), MallCategoryLevelEnum.LEVEL_ONE.getLevel(), 0);
             if (!CollectionUtils.isEmpty(firstLevelCategories)) {
                 //查询一级分类列表中第一个实体的所有二级分类
-                List<GoodsCategoryDTO> secondLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(firstLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_TWO.getLevel());
+                List<GoodsCategoryDTO> secondLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(firstLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_TWO.getLevel(), 0);
                 if (!CollectionUtils.isEmpty(secondLevelCategories)) {
                     //查询二级分类列表中第一个实体的所有三级分类
-                    List<GoodsCategoryDTO> thirdLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(secondLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel());
+                    List<GoodsCategoryDTO> thirdLevelCategories = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(secondLevelCategories.get(0).getId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel(), 0);
                     List<GoodsCategoryResponse> firstResponse = new ArrayList<>();
                     for (GoodsCategoryDTO dto : firstLevelCategories) {
                         firstResponse.add(MallGoodsCategoryController.convert(dto));

@@ -99,9 +99,9 @@ public class MallGoodsCategoryController {
         Map<String, List<GoodsCategoryResponse>> categoryResult = new HashMap<>(2);
         if (goodsCategoryDTO.getCategoryLevel() == MallCategoryLevelEnum.LEVEL_ONE.getLevel()) {
             //如果是一级分类则返回当前一级分类下的所有二级分类，以及二级分类列表中第一条数据下的所有三级分类列表
-            List<GoodsCategoryDTO> goodsCategoryTwoDTOS = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(categoryId), MallCategoryLevelEnum.LEVEL_TWO.getLevel());
+            List<GoodsCategoryDTO> goodsCategoryTwoDTOS = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(categoryId), MallCategoryLevelEnum.LEVEL_TWO.getLevel(), 0);
             if (!CollectionUtils.isEmpty(goodsCategoryTwoDTOS)) {
-                List<GoodsCategoryDTO> goodsCategoryThreeDTOS = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(goodsCategoryTwoDTOS.get(0).getId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel());
+                List<GoodsCategoryDTO> goodsCategoryThreeDTOS = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(goodsCategoryTwoDTOS.get(0).getId()), MallCategoryLevelEnum.LEVEL_THREE.getLevel(), 0);
                 if (goodsCategoryThreeDTOS == null || goodsCategoryThreeDTOS.size() == 0) {
                     return ResultGenerator.genFailResult("该分类下没有数据");
                 }
@@ -119,7 +119,7 @@ public class MallGoodsCategoryController {
         }
         //如果是二级分类则返回当前分类下的所有三级分类列表
         if (goodsCategoryDTO.getCategoryLevel() == MallCategoryLevelEnum.LEVEL_TWO.getLevel()) {
-            List<GoodsCategoryDTO> goodsCategoryThreeDTOS = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(categoryId), MallCategoryLevelEnum.LEVEL_THREE.getLevel());
+            List<GoodsCategoryDTO> goodsCategoryThreeDTOS = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(categoryId), MallCategoryLevelEnum.LEVEL_THREE.getLevel(), 0);
             if (goodsCategoryThreeDTOS == null || goodsCategoryThreeDTOS.size() == 0) {
                 return ResultGenerator.genFailResult("该分类下没有数据");
             }
