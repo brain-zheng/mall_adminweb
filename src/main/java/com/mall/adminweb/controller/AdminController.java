@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/admin")
 public class AdminController  {
 
-    @GetMapping("/index")
+    @GetMapping({"", "/", "/index", "/index.html"})
     public String index(HttpServletRequest request){
         // 传递模板数据，可以利用ModelAndView来传递数据
         request.setAttribute("path","index");
